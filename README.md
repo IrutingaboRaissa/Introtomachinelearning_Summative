@@ -12,7 +12,7 @@
 
 ## Abstract
 
-This study compares traditional machine learning algorithms with deep learning approaches for predicting obesity levels from healthcare and lifestyle data. We analyzed a dataset containing 2,111 individuals with 17 different features spanning demographic, physical, and behavioral characteristics across 7 obesity categories. Four traditional machine learning methods were evaluated: Random Forest, Support Vector Machines, Gradient Boosting, and Logistic Regression. Additionally, seven neural network architectures with varying complexity and regularization strategies were tested. Results show that traditional machine learning methods consistently outperformed deep learning approaches. Random Forest achieved the best performance with validation accuracy of [X.XXX], while neural networks demonstrated overfitting patterns regardless of regularization techniques applied. The confusion matrix analysis revealed that most classification errors occurred between adjacent obesity categories, which is medically reasonable. Feature importance analysis identified BMI, physical activity frequency, and family history as the most significant predictors. These findings suggest that for tabular healthcare datasets of this size, traditional machine learning methods provide better accuracy, interpretability, and computational efficiency compared to deep learning alternatives.
+This study compares traditional machine learning algorithms with deep learning approaches for predicting obesity levels from healthcare and lifestyle data. We analyzed a dataset containing 2,111 individuals with 17 different features spanning demographic, physical, and behavioral characteristics across 7 obesity categories. Four traditional machine learning methods were evaluated: Random Forest, Support Vector Machines, Gradient Boosting, and Logistic Regression. Additionally, seven neural network architectures with varying complexity and regularization strategies were tested. Results show that traditional machine learning methods consistently outperformed deep learning approaches. The Random Forest model achieved the highest validation accuracy of 97.79%, while deep learning models showed mixed results with the best neural network (L2 Regularized) achieving 95.6% accuracy. The confusion matrix analysis revealed that most classification errors occurred between adjacent obesity categories, which is medically reasonable. Feature importance analysis identified BMI, physical activity frequency, and family history as the most significant predictors. These findings suggest that for tabular healthcare datasets of this size, traditional machine learning methods provide better accuracy, interpretability, and computational efficiency compared to deep learning alternatives.
 
 **Keywords:** obesity prediction, machine learning, deep learning, healthcare analytics, Random Forest, neural networks, clinical prediction
 
@@ -162,14 +162,12 @@ The traditional machine learning approaches demonstrated consistently strong per
 
 **Table 1: Traditional Machine Learning Results**
 
-| Model | Best CV Score | Validation Accuracy | Precision | Recall | F1-Score | Training Time (s) |
-|-------|---------------|-------------------|-----------|---------|----------|------------------|
-| Random Forest | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] |
-| Gradient Boosting | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] |
-| SVM | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] |
-| Logistic Regression | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] |
-
-*Note: Insert actual values from your notebook execution*
+| Model | Best CV Score | Validation Accuracy | Training Time (s) | Key Parameters |
+|-------|---------------|-------------------|------------------|----------------|
+| Random Forest | 0.9878 | 0.9779 | 39.1 | n_estimators=200, max_depth=None |
+| Gradient Boosting | 0.9777 | 0.9779 | 243.2 | n_estimators=300, learning_rate=0.1 |
+| SVM | 0.9357 | 0.9369 | 12.2 | kernel=rbf, C=100, gamma=0.001 |
+| Logistic Regression | 0.7793 | 0.7760 | 56.0 | penalty=l1, C=0.1, solver=liblinear |
 
 The Random Forest classifier emerged as the top performer, achieving [X.XXX] validation accuracy with remarkably stable performance across different hyperparameter configurations. The optimal configuration utilized [specific parameters from results], demonstrating the algorithm's robustness to parameter selection. Feature importance analysis revealed BMI as the most significant predictor (importance = [X.XX]), followed by physical activity frequency ([X.XX]) and family history ([X.XX]).
 
@@ -185,17 +183,15 @@ The systematic evaluation of seven neural network architectures revealed consist
 
 **Table 2: Deep Learning Experimental Results**
 
-| Experiment | Architecture | Validation Accuracy | Precision | Recall | F1-Score | ROC AUC | Training Time (s) | Best Epoch |
-|------------|-------------|-------------------|-----------|---------|----------|---------|------------------|------------|
-| Exp 1: Shallow | 32-7 | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] | [XX] |
-| Exp 2: Deep | 128-64-32-7 | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] | [XX] |
-| Exp 3: Wide | 256-7 | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] | [XX] |
-| Exp 4: Dropout | 64-32-7 + Dropout | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] | [XX] |
-| Exp 5: BatchNorm | 64-32-7 + BN | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] | [XX] |
-| Exp 6: L2 Regularized | 64-32-7 + L2 | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] | [XX] |
-| Exp 7: Complex | 128-64-32-7 + All | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [X.XXX] | [XX.X] | [XX] |
-
-*Note: Insert actual values from your notebook execution*
+| Experiment | Architecture | Validation Accuracy | Precision | Recall | F1-Score | ROC AUC | Training Time (s) | Epochs Until Stop |
+|------------|-------------|-------------------|-----------|---------|----------|---------|------------------|-------------------|
+| Exp 1: Shallow | 32-7 | 0.924 | 0.926 | 0.924 | 0.925 | 0.993 | 20.8 | 92 |
+| Exp 2: Deep | 128-64-32-7 | 0.953 | 0.953 | 0.953 | 0.953 | 0.998 | 18.0 | 69 (early stop) |
+| Exp 3: Wide | 256-7 | 0.931 | 0.931 | 0.931 | 0.931 | 0.993 | 12.5 | 57 (early stop) |
+| Exp 4: Dropout | 64-32-7 + Dropout | 0.946 | 0.947 | 0.946 | 0.946 | 0.996 | 21.6 | 97 (early stop) |
+| Exp 5: BatchNorm | 64-32-7 + BN | 0.890 | 0.891 | 0.890 | 0.890 | 0.983 | 12.0 | 45 (early stop) |
+| Exp 6: L2 Regularized | 64-32-7 + L2 | **0.956** | **0.957** | **0.956** | **0.956** | **0.998** | 15.9 | 72 (early stop) |
+| Exp 7: Complex | 128-64-32-7 + All | 0.946 | 0.947 | 0.946 | 0.946 | 0.997 | 19.9 | 71 (early stop) |
 
 The shallow network (Experiment 1) established a baseline performance of [X.XXX] accuracy, demonstrating that simple architectures could capture the essential patterns in the obesity dataset. Learning curves showed stable convergence without significant overfitting, suggesting that the problem complexity does not require deep representations.
 
@@ -325,17 +321,17 @@ The rapid evolution of neural network architectures, including transformer model
 
 ## 6. Conclusion
 
-This study demonstrates that traditional machine learning methods work better than deep learning approaches for predicting obesity levels from healthcare and lifestyle data. Random Forest achieved the best performance with [X.XXX] validation accuracy, significantly outperforming the best neural network which reached [X.XXX] accuracy. These results provide important guidance for healthcare applications and show that choosing the right algorithm depends more on understanding your data than following the latest technological trends.
+This study demonstrates that traditional machine learning methods work better than deep learning approaches for predicting obesity levels from healthcare and lifestyle data. Random Forest achieved the best performance with 97.79% validation accuracy, slightly outperforming the best neural network which reached 95.6% accuracy. These results provide important guidance for healthcare applications and show that choosing the right algorithm depends more on understanding your data than following the latest technological trends.
 
 ### 6.1 Key Findings Summary
 
 Our comparison of eleven different machine learning models revealed several important patterns:
 
-**Traditional Methods Won Across All Metrics:** Random Forest, Gradient Boosting, Support Vector Machines, and Logistic Regression all performed better than the seven neural network architectures we tested. This performance advantage was consistent whether we looked at accuracy, precision, recall, or other evaluation measures.
+**Traditional Methods Generally Outperformed Deep Learning:** Random Forest and Gradient Boosting achieved the highest accuracies at 97.79%, while the best neural network (L2 Regularized) reached 95.6%. Traditional methods showed more consistent performance and required less computational time.
 
-**Neural Networks Showed Overfitting Problems:** Despite trying multiple regularization techniques like dropout, batch normalization, and weight penalties, neural networks consistently showed signs of overfitting. They performed well on training data but poorly on validation data, and early stopping typically occurred within 20-40 training epochs.
+**Early Stopping Effectively Prevented Overfitting:** Neural networks automatically stopped training between epochs 45-97 when validation performance stopped improving. Models with regularization (dropout, L2) showed better training/validation balance, while simpler architectures tended to overfit despite early stopping.
 
-**Traditional Methods Are More Efficient:** Random Forest achieved optimal results in [X.X] seconds while neural networks required [XX.X] seconds. Including hyperparameter tuning, traditional methods needed [X.X] hours total compared to [XX.X] hours for deep learning experiments.
+**Traditional Methods Are More Efficient:** Random Forest achieved optimal results in 39.1 seconds while neural networks required 12.0-21.6 seconds per experiment. However, traditional methods needed extensive hyperparameter search, while neural networks used 100 epochs with automatic early stopping.
 
 **Better Interpretability for Healthcare:** Random Forest provided clear feature importance rankings that make medical sense. BMI was the most important predictor, followed by physical activity and family history. Healthcare practitioners can understand and trust these explanations in ways that are difficult with neural network black boxes.
 
